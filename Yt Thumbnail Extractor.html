@@ -1,0 +1,46 @@
+<html lang="en"><head></head><body>
+
+
+  <meta charset="UTF-8">
+  <title>YouTube Thumbnail Viewer &amp; Downloader</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { padding: 10px; width: 300px; margin: 10px 0; }
+    img { max-width: 100%; margin-top: 20px; display: block; }
+    #downloadBtn { display: none; margin-top: 10px; }
+  </style>
+
+
+  <h2>YouTube Thumbnail Viewer &amp; Downloader</h2>
+  <input type="text" id="ytLink" placeholder="Paste YouTube Video URL here">
+  <button onclick="showThumbnail()">Get Thumbnail</button>
+  
+  <div id="thumbnailContainer"></div>
+  <a id="downloadBtn" download="thumbnail.jpg">Download Thumbnail</a>
+
+  <script>
+    function getVideoID(url) {
+      const regex = /(?:youtube\.com.*(?:\?v=|\/embed\/|\/v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+
+    function showThumbnail() {
+      const url = document.getElementById('ytLink').value;
+      const videoID = getVideoID(url);
+      const thumbnailContainer = document.getElementById('thumbnailContainer');
+      const downloadBtn = document.getElementById('downloadBtn');
+
+      if (videoID) {
+        const thumbnailURL = `https://img.youtube.com/vi/${videoID}/maxresdefault.jpg`;
+        thumbnailContainer.innerHTML = `<img src="${thumbnailURL}" alt="YouTube Thumbnail">`;
+        downloadBtn.href = thumbnailURL;
+        downloadBtn.style.display = 'inline-block';
+      } else {
+        thumbnailContainer.innerHTML = `<p style="color:red;">Invalid YouTube URL</p>`;
+        downloadBtn.style.display = 'none';
+      }
+    }
+  </script>
+
+</body></html>
